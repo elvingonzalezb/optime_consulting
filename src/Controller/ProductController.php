@@ -121,4 +121,26 @@ class ProductController extends AbstractController
 
         return $this->redirectToRoute('dashboard');
     }
+
+     /**
+     * @Route("/product/pdf", name="pdf_product")
+     */
+    public function pdf(Request $request): Response
+    {
+        $pdfKnp = $this->get("knp_snappy.pdf");
+        $pdfKnp->setOption("encoding", "UTF-8");
+
+        $fileName = "mi_pagina_web";
+
+        $miWebUrl = "https://ramselvin.com";
+
+        return new Response(
+            $pdfKnp->getOutput($miWebUrl),
+            200,
+            array(
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="' . $fileName .'.pdf"'
+            )
+        );
+    }
 }
