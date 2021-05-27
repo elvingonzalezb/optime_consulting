@@ -12,7 +12,9 @@ use App\Validator\Constraints as AcmeAssert;
  */
 class Product
 {
-    const DES_MENSAJE_REGISTRO_PRODUCTO = 'Producto registrado satisfactoriamente';
+    const DES_MENSAJE_REGISTRO_PRODUCTO  = 'Producto registrado satisfactoriamente';
+    const DES_MENSAJE_ACTUALIZA_PRODUCTO = 'Producto actualizado satisfactoriamente';
+    const DES_MENSAJE_EXISTE_PRODUCTO    = 'Producto ya existe';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

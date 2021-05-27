@@ -31,18 +31,32 @@ class ProductController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $categorys     = $entityManager->getRepository(Category::class)->findAll();
 
+
         $formProduct->handleRequest($request);
 
         if ($formProduct->isSubmitted() 
             && $formProduct->isValid()
         ) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $product->setCreatedAt(new \DateTime());            
-            $entityManager->persist($product);
-            $entityManager->flush();
             
-            $this->addFlash('exito', Product::DES_MENSAJE_REGISTRO_PRODUCTO);
-            return $this->redirectToRoute('product');
+            $nameProduct = $entityManager->getRepository(Product::class)->findOneBy(
+                array(
+                    'nombre' => $formProduct->get("nombre")->getData()
+                ));
+
+            if ($nameProduct == null) {
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $product->setCreatedAt(new \DateTime());            
+                $entityManager->persist($product);
+                $entityManager->flush();
+                
+                $this->addFlash('exito', Product::DES_MENSAJE_REGISTRO_PRODUCTO);
+                return $this->redirectToRoute('product');
+
+            } else {
+                $this->addFlash('exito', Product::DES_MENSAJE_EXISTE_PRODUCTO);
+                return $this->redirectToRoute('dashboard');
+            }
         }
 
         return $this->render('product/index.html.twig', [

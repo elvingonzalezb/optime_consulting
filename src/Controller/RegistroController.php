@@ -25,15 +25,26 @@ class RegistroController extends AbstractController
         if ($formUser->isSubmitted() 
             && $formUser->isValid()
         ) {
+
             $entityManager = $this->getDoctrine()->getManager();
-            //$user->setActivo(true);
-            //$user->setRoles(['ROLE_USER']);
-            $user->setPassword($passwordEncoder->encodePassword($user, $formUser['password']->getData()));
-            $entityManager->persist($user);
-            $entityManager->flush();
-            
-            $this->addFlash('exito', User::DES_MENSAJE_REGISTRO_EXITOSO);
-            return $this->redirectToroute('registro');
+              
+            $emailUser = $entityManager->getRepository(User::class)->findOneBy(
+                array(
+                    'email' => $formUser->get("email")->getData()
+                ));
+
+            if ($emailUser ==  null) {                
+                $user->setPassword($passwordEncoder->encodePassword($user, $formUser['password']->getData()));
+                $entityManager->persist($user);
+                $entityManager->flush();
+                
+                $this->addFlash('exito', User::DES_MENSAJE_REGISTRO_EXITOSO);
+                return $this->redirectToroute('registro');
+
+            } else {
+                $this->addFlash('exito', 'Email ya se encuentra registrado');
+                return $this->redirectToRoute('registro');
+            }
         }
 
         return $this->render('registro/index.html.twig', [

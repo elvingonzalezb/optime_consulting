@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\CategoryType;
 use App\Entity\Category;
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,20 +28,34 @@ class CategoryController extends AbstractController
         if ($formCategory->isSubmitted() 
             && $formCategory->isValid()
         ) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $category->setActive(true);
-            $category->setCreatedAt(new \DateTime());            
-            $entityManager->persist($category);
-            $entityManager->flush();
-            
-            $this->addFlash('exito', Category::DES_MENSAJE_REGISTRO_CATEGORIA);
-            return $this->redirectToroute('category');
+
+            $nameProduct   = $entityManager->getRepository(Category::class)->findOneBy(
+                                array(
+                                    'name' => $formCategory->get("name")->getData()
+                                ));
+
+            if ($nameProduct ==  null) {
+                
+                $entityManager = $this->getDoctrine()->getManager();
+                $category->setActive(true);
+                $category->setCreatedAt(new \DateTime());            
+                $entityManager->persist($category);
+                $entityManager->flush();
+                
+                $this->addFlash('exito', Category::DES_MENSAJE_REGISTRO_CATEGORIA);
+                return $this->redirectToroute('category');    
+               
+            } else {
+                $this->addFlash('exito', Category::DES_MENSAJE_EXISTE_CATEGORIA);
+                return $this->redirectToRoute('dashboard');
+            }
+     
         }
 
         return $this->render('category/index.html.twig', [
             'categorys'     => $categorys,
             'form_category' => $formCategory->createView()
-        ]);
+        ]);       
     }
 
       /**
@@ -53,19 +68,20 @@ class CategoryController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
         $categorys     = $entityManager->getRepository(Category::class)->findAll();
+            
+            if ($formCategory->isSubmitted() 
+                && $formCategory->isValid()
+            ) {
+                $this->getDoctrine()->getManager()->flush();
+            
+                $this->addFlash('exito', Category::DES_MENSAJE_ACTUALIZA_CATEGORIA);
+                return $this->redirectToRoute('dashboard');
+            }
 
-        if ($formCategory->isSubmitted() 
-            && $formCategory->isValid()
-        ) {
-            $this->getDoctrine()->getManager()->flush();
-           
-            $this->addFlash('exito', Category::DES_MENSAJE_ACTUALIZA_CATEGORIA);
-            return $this->redirectToRoute('dashboard');
-        }
-
-        return $this->render('category/edit_categoria.html.twig', [
-            'categorys'     => $categorys,
-            'form_category' => $formCategory->createView()
-        ]);
+            return $this->render('category/edit_categoria.html.twig', [
+                'categorys'     => $categorys,
+                'form_category' => $formCategory->createView()
+            ]);            
+          
     }
 }

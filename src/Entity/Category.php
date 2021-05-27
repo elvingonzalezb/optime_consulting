@@ -16,6 +16,7 @@ class Category
 {
     const DES_MENSAJE_REGISTRO_CATEGORIA  = 'Categoria registrada satisfactoriamente';
     const DES_MENSAJE_ACTUALIZA_CATEGORIA = 'Categoria actualizada satisfactoriamente';
+    const DES_MENSAJE_EXISTE_CATEGORIA    = 'La Categoria ya existe';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -135,7 +136,7 @@ class Category
     public function removeProduct(Product $product): self
     {
         if ($this->products->removeElement($product)) {
-            // set the owning side to null (unless already changed)
+          
             if ($product->getCategory() === $this) {
                 $product->setCategory(null);
             }
