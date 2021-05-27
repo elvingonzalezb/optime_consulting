@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent()}} - Category{% endblock %}
+
+{% block body %}
+{{ parent() }}
+<section class="content-header">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-sm-6 mt-5">
+                <h1>Modulo categorias</h1>
+            </div>
+            <div class="col-sm-6">            
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+  </section>
+<section class="container">
+    {% for message in app.flashes('exito') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-lg-8 col-8">
+            <div class="card mt-2 mb-2 ml-2 mr-2">
+                <div class="row">
+                    <div class="col-lg-4 col-4">                    
+                        {{ form(form_category) }}                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-4">
+            <div class="card">
+                <div class="card-header">
+                    Categorias Existentes
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    {% for cat in categorys %}               
+                        <a class="" href="{{ path('edit_category', {id:cat.id}) }}"> 
+                            <p class="card-text">{{ cat.name }}</p>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>  
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent()}} - Dashboard{% endblock %}
+
+{% block body %}
+{{ parent() }}
+    <div class="container mt-5">
+        <div class="row mb-2">
+          <div class="col-sm-6 col-12">
+              <h1>Listado productos ({{ pagination.getTotalItemCount }})</h1>
+              <a class="btn btn-info btn-sm float-right" title="New product" href="{{ path('new_product') }}"> <i class="fa fa-save"></i></a>  
+          </div>          
+          <div class="col-sm-6 col-12"></div>
+        </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 col-9">
+          <table class="table">
+            <thead class="table-dark">
+              <tr>
+                  {# sorting of properties based on query components #}
+                  <th>{{ knp_pagination_sortable(pagination, 'Id', 'prod.id') }}</th>
+                  <th{% if pagination.isSorted('prod.Code') %} class="sorted"{% endif %}>
+                      {{ knp_pagination_sortable(pagination, 'Codigo', 'prod.code') }}
+                  </th>
+                  <th scope="col"{% if pagination.isSorted('prod.Nombre') %} class="sorted"{% endif %}>
+                      {{ knp_pagination_sortable(pagination, 'Nombre', 'prod.nombre') }}
+                  </th>
+                  <th scope="col"{% if pagination.isSorted('prod.Description') %} class="sorted"{% endif %}>
+                      {{ knp_pagination_sortable(pagination, 'Descripción', 'prod.description') }}
+                  </th>
+                  <th scope="col"{% if pagination.isSorted('prod.Brand') %} class="sorted"{% endif %}>
+                      {{ knp_pagination_sortable(pagination, 'Marca', 'prod.brand') }}
+                  </th>
+                  <th scope="col"{% if pagination.isSorted('prod.Price') %} class="sorted"{% endif %}>
+                      {{ knp_pagination_sortable(pagination, 'Price', 'prod.price') }}
+                  </th>
+                  <th scope="col"{% if pagination.isSorted('cat.Name') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Categoria', 'cat.name') }}
+                  </th>
+                  <th scope="col"{% if pagination.isSorted(['prod.createdAt', 'prod.time']) %} class="sorted"{% endif %}>
+                      {{ knp_pagination_sortable(pagination, 'Fecha', 'prod.createdAt') }}
+                  </th>
+                  <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {# table body #}
+              {% for product in pagination %}
+                  <tr {% if loop.index is odd %}class="color"{% endif %}>
+                      <td>{{ product.id }}</td>
+                      <td>{{ product.code }}</td>
+                      <td>{{ product.nombre }}</td>
+                      <td>{{ product.description }}</td>
+                      <td>{{ product.brand }}</td>
+                      <td>{{ product.price }}</td>
+                      <td>{{ product.name }}</td>
+                      <td>{{ product.createdAt | date('Y-m-d') }}</td>
+                        <td>                 
+                          <a class="btn btn-success btn-sm" href="{{ path('edit_product', {id:product.id}) }}"><i class="fa fa-edit"></i></a>                       
+                          
+                          <form method="post" action="{{ path('delete_product', {id:product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                            <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                          </form>
+
+                      </td>                   
+                  </tr>
+              {% else %}
+                <tr>
+                  <td colspan="5">No existen resultados</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-lg-3 col-3">
+          {% for message in app.flashes('exito') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+          {% endfor %}
+          <div class="card">
+            <div class="card-header">
+              Categorias
+            </div>
+            <div class="card-body">              
+              {% for cat in categorys %}               
+                <a class="" href="{{ path('edit_category', {id:cat.id}) }}"> 
+                  <p class="card-text">{{ cat.name }}</p>
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+      </div>      
+    </div>
+    {# display navigation #}
+    <div class="d-flex justify-content-center">
+      <div class="pagination">
+          {{ knp_pagination_render(pagination) }}
+      </div>
+    </div>
+{% endblock %}
+
+
+
+

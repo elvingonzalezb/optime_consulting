@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent()}} - Product{% endblock %}
+
+{% block body %}
+{{ parent() }}
+<div class="container mt-5">
+    <div class="row mb-2">
+        <div class="col-sm-6 col-12">
+            <h1>New product</h1>      
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9 col-9">
+            {% for message in app.flashes('exito') %}
+                <div class="alert alert-success">
+                {{ message }}
+                </div>
+            {% endfor %}
+            
+            {{ form(form_product) }}
+        </div>
+
+        <div class="col-lg-3 col-3">
+            {% for message in app.flashes('exito') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+            {% endfor %}
+            <div class="card">
+            <div class="card-header">
+                Categorias
+            </div>
+            <div class="card-body">              
+                {% for cat in categorys %}               
+                <a class="" href="{{ path('edit_category', {id:cat.id}) }}"> 
+                    <p class="card-text">{{ cat.name }}</p>
+                </a>
+                {% endfor %}
+            </div>
+            </div>
+        </div>
+
+    </div>      
+</div>
+{% endblock %}
