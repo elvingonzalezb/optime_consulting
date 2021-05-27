@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AcmeAssert;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -22,26 +23,28 @@ class Product
     /**
      * @ORM\Column(
      *      type="string", 
-     *      length=255,
+     *      length=10,
      *      nullable=false,
      *      unique=true
      *  )
+     * @AcmeAssert\ContainsAlphanumeric
      * @Assert\NotBlank(
      *      message="Por favor ingrese un codigo de producto"
      * )  
      */
     private $code;
 
+
     /**
      * @ORM\Column(
      *      type="string", 
      *      length=255,
-     *      nullable=false,
      *      unique=true
      * )
+     * @AcmeAssert\ContainsAlphanumeric
      * @Assert\NotBlank(
      *      message="Por favor ingrese un nombre de producto"
-     * ) 
+     * )   
      */
     private $nombre;
 
@@ -50,6 +53,7 @@ class Product
      *      type="string", 
      *      length=255
      * )
+     * @AcmeAssert\ContainsAlphanumeric
      * @Assert\NotBlank(
      *      message="Por favor ingrese un descripción de producto"
      * )
@@ -68,12 +72,10 @@ class Product
     private $brand;
 
     /**
-     * @ORM\Column(
-     *      type="float"
+     * @Assert\Positive(
+     *      message = "Debe colocar un valor positivo"
      * )
-     * @Assert\NotBlank(
-     *      message="Por favor ingrese precio de producto"
-     * )
+     * @ORM\Column(type="decimal", precision=10, scale=0, nullable=true)
      */
     private $price;
 

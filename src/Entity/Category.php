@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AcmeAssert;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
@@ -28,6 +29,7 @@ class Category
      *      length=255,
      *      unique=true
      * )
+     * @AcmeAssert\ContainsAlphanumeric
      * @Assert\NotBlank(
      *      message="Por favor ingrese un nombre de categoria"
      * )   

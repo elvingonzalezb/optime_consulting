@@ -24,7 +24,7 @@ class CategoryType extends AbstractType
                     ])
                 ]
             ])           
-            ->add('Actualizar', SubmitType::class);
+            ->add('Aceptar', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

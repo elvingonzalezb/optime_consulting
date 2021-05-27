@@ -3,10 +3,25 @@
 {% block title %}Hello RegistroController!{% endblock %}
 
 {% block body %}
-{% for message in app.flashes('exito') %}
-            <div class="alert alert-success">
-                {{ message }}
+<div class="container mt-5">
+    <div class="row">
+      <div class="col-sm"></div>
+      <div class="col-sm">
+        <div class="abs-center">
+          <div class="card">
+            <div class="card-header">
+              <h1 class="h3 mb-3 font-weight-normal">Modulo de registro</h1>            
+              {% for message in app.flashes('exito') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {{ form(form_user) }}
             </div>
-        {% endfor %}
-    {{ form(form_user) }}
+          </div>
+        </div>
+      </div>
+      <div class="col-sm"></div>
+    </div>
+  </div>
 {% endblock %}

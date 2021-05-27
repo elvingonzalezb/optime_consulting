@@ -1,37 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent()}} - Edit Category{% endblock %}
+{% block title %}{{ parent()}} - Category{% endblock %}
 
 {% block body %}
 {{ parent() }}
-<section class="content-header">
-    <div class="container">
-        <div class="row mb-2">
-            <div class="col-sm-6 mt-5">
-                <h1>Modulo categorias</h1>
-            </div>
-            <div class="col-sm-6">            
-            </div>
+<div class="container">
+    <div class="row mb-2">
+        <div class="col-sm-6 mt-5">
+            <h1>Modulo categorias</h1>
+        </div>
+        <div class="col-sm-6">            
         </div>
     </div>
-</section>
-<section class="container">
-    {% for message in app.flashes('exito') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
-    {% endfor %}
+</div>
+<div class="container">
     <div class="row">
-        <div class="col-sm-9 col-12">
-            <div class="card mt-2 mb-2 ml-2 mr-2">
-                <div class="row">
-                    <div class="col-lg-4 col-4">                    
-                        {{ form(form_category) }}                    
+        <div class="col-lg-8 col-12">
+        {% for message in app.flashes('exito') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+        {% endfor %}
+            <div class="row">
+                <div class="abs-center">
+                    <div class="card">
+                        <div class="card-body">                    
+                            {{ form(form_category) }}                    
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-3 col-12">
+        <div class="col-lg-3 col-12">
             <div class="card">
                 <div class="card-header">
                     Categorias
@@ -42,7 +41,7 @@
                 <div class="card-body">
                     <h5 class="card-title"></h5>
                     {% for cat in categorys %}               
-                    <a class="titulo-category" href="{{ path('edit_category', {id:cat.id}) }}"> 
+                    <a class="titulo-category" href="{{ path('category', {id:cat.id}) }}"> 
                         <i class="fa fa-check check-category mt-1"></i><p class="card-text">{{ cat.name }}</p>
                     </a>
                     {% endfor %}
@@ -50,5 +49,5 @@
             </div>
         </div>
     </div>
-</section>  
+</div>  
 {% endblock %}

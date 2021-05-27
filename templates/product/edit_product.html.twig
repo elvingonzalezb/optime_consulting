@@ -8,7 +8,7 @@
     <div class="container">
         <div class="row mb-2">
             <div class="col-sm-6 mt-5">
-                <h1>Modulo categorias</h1>
+                <h1>Modulo productos</h1>
             </div>
             <div class="col-sm-6">            
             </div>
@@ -22,26 +22,31 @@
     </div>
     {% endfor %}
     <div class="row">
-        <div class="col-sm-9 col-12">
-            <div class="card mt-2 mb-2 ml-2 mr-2">
-                <div class="row">
-                    <div class="col-lg-4 col-4">                    
-                        {{ form(form_product) }}                    
+        <div class="col-sm-8 col-12">         
+            <div class="row">
+                <div class="abs-center">
+                    <div class="card">
+                        <div class="card-header">                                       
+                            {{ form(form_product) }}
+                        </div>                            
                     </div>
                 </div>
-            </div>
+            </div>         
         </div>
         <div class="col-sm-3 col-12">
             <div class="card">
                 <div class="card-header">
                     Categorias
+                    <div class="boton-new-category">
+                        <a class="btn btn-info btn-sm" title="New category" href="{{ path('category') }}"> <i class="fa fa-save"></i></a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title"></h5>
                     {% for cat in categorys %}               
-                        <a class="" href="{{ path('edit_category', {id:cat.id}) }}"> 
-                            <p class="card-text">{{ cat.name }}</p>
-                        </a>
+                    <a class="titulo-category" href="{{ path('edit_category', {id:cat.id}) }}"> 
+                        <i class="fa fa-check check-category mt-1"></i><p class="card-text">{{ cat.name }}</p>
+                    </a>
                     {% endfor %}
                 </div>
             </div>

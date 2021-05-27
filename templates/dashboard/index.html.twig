@@ -18,54 +18,46 @@
       <div class="row">
         <div class="col-lg-9 col-9">
           <table class="table">
-            <thead class="table-dark">
-              <tr>
-                  {# sorting of properties based on query components #}
-                  <th>{{ knp_pagination_sortable(pagination, 'Id', 'prod.id') }}</th>
-                  <th{% if pagination.isSorted('prod.Code') %} class="sorted"{% endif %}>
-                      {{ knp_pagination_sortable(pagination, 'Codigo', 'prod.code') }}
+            <thead class="table table-hover table-sm">
+              <tr class="titulo-tabla-producto">                 
+                  <th{% if pagination.isSorted('prod.Code') %} class="sorted active"{% endif %}>
+                      {{ knp_pagination_sortable(pagination, 'CÓDIGO', 'prod.code') }}<i class="fa fa-sort"></i>
                   </th>
                   <th scope="col"{% if pagination.isSorted('prod.Nombre') %} class="sorted"{% endif %}>
-                      {{ knp_pagination_sortable(pagination, 'Nombre', 'prod.nombre') }}
+                      {{ knp_pagination_sortable(pagination, 'NOMBRE', 'prod.nombre') }} <i class="fa fa-sort"></i>
                   </th>
                   <th scope="col"{% if pagination.isSorted('prod.Description') %} class="sorted"{% endif %}>
-                      {{ knp_pagination_sortable(pagination, 'Descripción', 'prod.description') }}
+                      {{ knp_pagination_sortable(pagination, 'DESCRIPCIÓN', 'prod.description') }}<i class="fa fa-sort"></i>
                   </th>
                   <th scope="col"{% if pagination.isSorted('prod.Brand') %} class="sorted"{% endif %}>
-                      {{ knp_pagination_sortable(pagination, 'Marca', 'prod.brand') }}
+                    {{ knp_pagination_sortable(pagination, 'MARCA', 'prod.brand') }}<i class="fa fa-sort"></i>
                   </th>
                   <th scope="col"{% if pagination.isSorted('prod.Price') %} class="sorted"{% endif %}>
-                      {{ knp_pagination_sortable(pagination, 'Price', 'prod.price') }}
+                      {{ knp_pagination_sortable(pagination, 'PRECIO', 'prod.price') }}<i class="fa fa-sort"></i>
                   </th>
                   <th scope="col"{% if pagination.isSorted('cat.Name') %} class="sorted"{% endif %}>
-                    {{ knp_pagination_sortable(pagination, 'Categoria', 'cat.name') }}
-                  </th>
-                  <th scope="col"{% if pagination.isSorted(['prod.createdAt', 'prod.time']) %} class="sorted"{% endif %}>
-                      {{ knp_pagination_sortable(pagination, 'Fecha', 'prod.createdAt') }}
+                    {{ knp_pagination_sortable(pagination, 'CATEGORIA', 'cat.name') }}<i class="fa fa-sort"></i>
                   </th>
                   <th>Opciones</th>
               </tr>
             </thead>
-            <tbody>
-              {# table body #}
+            <tbody>            
               {% for product in pagination %}
-                  <tr {% if loop.index is odd %}class="color"{% endif %}>
-                      <td>{{ product.id }}</td>
+                  <tr {% if loop.index is odd %}class="color"{% endif %}>                     
                       <td>{{ product.code }}</td>
                       <td>{{ product.nombre }}</td>
                       <td>{{ product.description }}</td>
                       <td>{{ product.brand }}</td>
                       <td>{{ product.price }}</td>
                       <td>{{ product.name }}</td>
-                      <td>{{ product.createdAt | date('Y-m-d') }}</td>
-                        <td>                 
-                          <a class="btn btn-success btn-sm" href="{{ path('edit_product', {id:product.id}) }}"><i class="fa fa-edit"></i></a>                       
-                          
-                          <form method="post" action="{{ path('delete_product', {id:product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
-                            <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                          </form>
-
+                      <td>                 
+                        <a class="btn btn-success btn-sm" href="{{ path('edit_product', {id:product.id}) }}"><i class="fa fa-edit"></i></a>                       
+                          <div class="boton-delete-category">
+                            <form method="post" action="{{ path('delete_product', {id:product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                              <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                              <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                            </form>
+                          </div>
                       </td>                   
                   </tr>
               {% else %}
@@ -75,6 +67,13 @@
               {% endfor %}
             </tbody>
           </table>
+       
+          <div class="d-flex justify-content-center">
+            <div class="pagination">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+          </div>
+        
         </div>
 
         <div class="col-lg-3 col-3">
@@ -86,11 +85,14 @@
           <div class="card">
             <div class="card-header">
               Categorias
+              <div class="boton-new-category">
+                <a class="btn btn-info btn-sm" title="New category" href="{{ path('category') }}"> <i class="fa fa-save"></i></a>
+              </div>
             </div>
             <div class="card-body">              
               {% for cat in categorys %}               
-                <a class="" href="{{ path('edit_category', {id:cat.id}) }}"> 
-                  <p class="card-text">{{ cat.name }}</p>
+                <a class="titulo-category" href="{{ path('edit_category', {id:cat.id}) }}"> 
+                  <i class="fa fa-check check-category mt-1"></i><p class="card-text">{{ cat.name }}</p>
                 </a>
               {% endfor %}
             </div>
@@ -98,13 +100,7 @@
         </div>
 
       </div>      
-    </div>
-    {# display navigation #}
-    <div class="d-flex justify-content-center">
-      <div class="pagination">
-          {{ knp_pagination_render(pagination) }}
-      </div>
-    </div>
+    </div>   
 {% endblock %}
 
 

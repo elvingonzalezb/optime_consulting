@@ -12,3 +12,43 @@ body {
 #product_Registrar {
     padding-top: 15px!important;
 }
+
+.boton-new-category {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+}
+
+.boton-delete-category {
+    position: relative;
+    top: -32px;
+    right: -39px;
+}
+
+a.sortable {   
+    font-size: 14px;
+    text-decoration: none;
+    color: #000000;
+    font-family: cursive;
+   
+} 
+
+.titulo-category {
+    font-size: 14px;
+    text-decoration: none;
+    color: #000000;
+    font-family: cursive;
+}
+
+.check-category {
+    float: left;
+}
+
+p.card-text {
+    padding-left: 20px!important;
+}
+.form-group {   
+    padding-bottom: 8px!important;
+    padding-top: 8px!important;
+    padding-left: 20px!important;
+}
